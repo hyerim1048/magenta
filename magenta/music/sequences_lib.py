@@ -85,7 +85,7 @@ def trim_note_sequence(sequence, start_time, end_time):
   Raises:
     QuantizationStatusException: If the sequence has already been quantized.
   """
-  if is_quantized_sequence(sequence):
+  if is_quantized_sequence(sequence): # quantization 음정확하게하는거의미
     raise QuantizationStatusException(
         'Can only trim notes and chords for unquantized NoteSequence.')
 
@@ -988,13 +988,13 @@ def apply_sustain_control_changes(note_sequence, sustain_control_number=64):
     raise QuantizationStatusException(
         'Can only apply sustain to unquantized NoteSequence.')
 
-  sequence = copy.deepcopy(note_sequence)
+  sequence = copy.deepcopy(note_sequence) 
 
   # Sort all note on/off and sustain on/off events.
   events = []
-  events.extend([(note.start_time, _NOTE_ON, note)
+  events.extend([(note.start_time, _NOTE_ON, note) # note on start
                  for note in sequence.notes])
-  events.extend([(note.end_time, _NOTE_OFF, note)
+  events.extend([(note.end_time, _NOTE_OFF, note) # note off end
                  for note in sequence.notes])
 
   for cc in sequence.control_changes:
@@ -1011,12 +1011,12 @@ def apply_sustain_control_changes(note_sequence, sustain_control_number=64):
 
   # Sort, using the event type constants to ensure the order events are
   # processed.
-  events.sort(key=itemgetter(0))
+  events.sort(key=itemgetter(0)) # sort by time
 
   # Lists of active notes, keyed by instrument.
-  active_notes = collections.defaultdict(list)
+  active_notes = collections.defaultdict(list) # list default dict
   # Whether sustain is active for a given instrument.
-  sus_active = collections.defaultdict(lambda: False)
+  sus_active = collections.defaultdict(lambda: False) # default : False
 
   # Iterate through all sustain on/off and note on/off events in order.
   time = 0
